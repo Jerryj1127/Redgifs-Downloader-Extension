@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/popup.css">
+  <title>RedGifs Downloader</title>
+</head>
+<body>
+  <div class="container">
+    <h1>RedGifs Downloader <span class="version">v1.0</span></h1>
+    <h2>stats:</h2>
+    <div class="stats">
+      <div class="stat-item">
+        <span id="total-downloads" class="number">0</span>
+        <span class="label">Total Downloads</span>
+      </div>
+      <div class="stat-item">
+        <span id="total-data" class="number">0 MB</span>
+        <span class="label">Total Data Consumed</span>
+      </div>
+      <div class="stat-item">
+        <span id="content-time" class="number">0hr 0min</span>
+        <span class="label">Content Worth Time</span>
+      </div>
+      <div class="stat-item">
+        <!-- This quadrant is left empty -->
+      </div>
+    </div>
+    <div id="update-message" class="update" style="display: none;">
+      <a href="#" target="_blank" id="update-url">
+        <p class="update-text">Update Available!</p>
+      </a>
+    </div>
+    <div class="links">
+      <a href="#" target="_blank" id="homepage">Homepage</a>
+      <span>|</span>
+      <a href="#" target="_blank" id="report-error">Report Error</a>
+    </div>
+    <div class="coffee">
+      <a class="bmc-button" target="_blank" id="bmc-url" href="#">
+        <img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy me a coffee">
+      </a>
+    </div>
+  </div>
+  <script src="popup.js" type="module"></script>
+  <script src="update.js"></script>
+</body>
+</html>

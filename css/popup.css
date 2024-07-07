@@ -1,0 +1,116 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  background: linear-gradient(166deg, rgba(216,71,80,1) 0%, rgba(130,36,230,1) 100%);
+
+  margin: 0;
+  padding: 20px;
+  width: 300px;
+}
+
+.container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 9px 13px 5px 0px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: 24px;
+}
+
+.version {
+  font-size: 14px;
+  color: #888;
+  float: right;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-top: 10px;
+}
+
+.stat-item {
+  text-align: right;
+  padding: 5px;
+}
+
+.number {
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+  color: #d80d0d;
+}
+
+.label {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.update {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.update-text {
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+  animation: blink 1s infinite;
+  margin: 0;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.links {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+.links a {
+  color: #4a4a4a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #0056b3;
+}
+
+.coffee {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.bmc-button {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #ffffff;
+  background-color: #FF813F;
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2em;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.bmc-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  background-color: #FFDD00;
+}
+
+.bmc-button img {
+  height: 25px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
