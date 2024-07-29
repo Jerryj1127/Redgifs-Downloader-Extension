@@ -14,10 +14,20 @@ Redgifs Downloader is a browser extension that allows users to easily download v
 
 ### Chrome
 
-1. Download or clone this repository
+1. [Download](https://github.com/Jerryj1127/Redgifs-Downloader-Extension/releases/tag/v1.0.0) or clone this repository
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable "Developer mode" in the top right corner
 4. Click "Load unpacked" and select the extension directory
+
+### Firefox
+
+Users can get the extension from [Firefox-addons](https://addons.mozilla.org/en-US/firefox/addon/redgifs-downloader-for-ff/)
+
+Or if you like it load it yourself:
+1. Download or clone the repository.
+2. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
+3. Click on "Load Temporary Add-on".
+4. Select the manifest.json file from the extension directory.
 
 ## Usage
 
