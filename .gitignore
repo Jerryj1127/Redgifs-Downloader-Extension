@@ -2,3 +2,4 @@
 *.zip
 ./manifest.json
 *test*
+releases

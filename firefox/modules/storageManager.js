@@ -1,5 +1,21 @@
 // storageManager.js
 
+export function getStorageItem(key) {
+  return new Promise((resolve) => {
+    browser.storage.local.get([key], (result) => {
+      resolve(result[key]);
+    });
+  });
+}
+
+export function setStorageItem(key, value) {
+  return new Promise((resolve) => {
+    browser.storage.local.set({ [key]: value }, () => {
+      resolve();
+    });
+  });
+}
+
 // Get storage value
 export function getCounter(keys) {
     return new Promise((resolve) => {

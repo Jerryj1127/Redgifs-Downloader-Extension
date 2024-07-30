@@ -2,7 +2,49 @@
 
 import { incrementDownloadCounter } from './storageManager.js';
 import { isDownloading, addDownload, removeDownload } from './downloadTracker.js';
-import { generateToken } from './token.js';
+import { getToken, fetchNewToken } from './token.js';
+
+async function fetchGifData(filename) {
+  try {
+    let authToken = await getToken();
+    let url = `https://api.redgifs.com/v2/gifs/${encodeURIComponent(filename)}`;
+
+    let headers = {
+      'accept': 'application/json, text/plain, */*',
+      'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+      'authorization': `Bearer ${authToken}`,
+      'cache-control': 'no-cache',
+      'dnt': '1',
+      'origin': 'https://www.redgifs.com',
+      'pragma': 'no-cache',
+      'priority': 'u=1, i',
+      'referer': 'https://www.redgifs.com/',
+      'user-agent': navigator.userAgent
+    };
+
+    let response = await fetch(url, { headers });
+
+    if (response.status === 401) {
+      // Token might be expired, generate a new token
+      authToken = await fetchNewToken();
+      headers['authorization'] = `Bearer ${authToken}`;
+      response = await fetch(url, { headers });
+    }
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      urls: data.gif.urls,
+      duration: data.gif.duration
+    };
+  } catch (error) {
+    console.error('Error fetching GIF data:', error);
+    throw error;
+  }
+}
 
 export function addDownloadButton(sideBarWrap) {
   if (!sideBarWrap.querySelector('.download-button')) {
@@ -64,16 +106,15 @@ async function handleDownloadClick(event) {
         button.disabled = true;
         addDownload(filename);
         try {
-          const response = await fetch(`https://redgifsdownloader.onrender.com/extension/api?url=${encodeURIComponent(videoUrl)}&token=${generateToken(videoUrl)}`, {
+          const gifData = await fetchGifData(filename);
+          const fallback = await fetch(`https://redgifsdownloader.onrender.com/ext/api?url=${encodeURIComponent(videoUrl)}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
             }
           });
-
-          const data = await response.json();
-          if (data.download_url) {
-            const downloadResponse = await fetch(`https://redgifsdownloader.onrender.com${data.download_url}`);
+          if (gifData.urls) {
+            const downloadResponse = await fetch(gifData.urls.hd); // Adjust URL based on the quality you need
             const blob = await downloadResponse.blob();
             const downloadUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -86,12 +127,13 @@ async function handleDownloadClick(event) {
 
             const contentLength = downloadResponse.headers.get('content-length');
             const size = contentLength ? parseInt(contentLength, 10) : blob.size;
-            const duration = data.duration;
+            const duration = gifData.duration;
 
             removeDownload(filename);  // Remove from the ongoing downloads list
+            console.log("RedGifs Downloader :: Downloaded ", filename)
             incrementDownloadCounter(duration, size);
           } else {
-            console.error('Failed to get download URL:', data.error);
+            console.error('Failed to get download URL:', gifData);
           }
         } catch (error) {
           console.error('Error downloading video:', error);

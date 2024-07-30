@@ -1,24 +1,21 @@
 {
   "manifest_version": 3,
   "name": "Redgifs Downloader",
-  "version": "1.0.0",
-  "description": "A Chrome extension to download videos from Redgifs",
+  "version": "1.1.0",
+  "description": "Chrome extension to download videos from Redgifs",
   "permissions": [
     "storage",
-    "activeTab",
     "scripting",
     "webRequest",
     "downloads"
   ],
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "matches": ["https://www.redgifs.com/*"],
       "js": ["content.js"],
-      "type": "module",
       "css": ["css/styles.css"]
     }
   ],
@@ -30,7 +27,8 @@
         "modules/downloadButton.js",
         "modules/downloadTracker.js",
         "modules/mutationObserver.js",
-        "modules/storageManager.js"
+        "modules/storageManager.js",
+        "modules/token.js"
       ],
       "matches": ["https://www.redgifs.com/*"]
     }

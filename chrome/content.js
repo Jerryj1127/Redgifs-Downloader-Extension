@@ -1,4 +1,5 @@
 // content.js
+
 (async function() {
   const cssLoader = await import(chrome.runtime.getURL('modules/cssLoader.js'));
   const downloadButton = await import(chrome.runtime.getURL('modules/downloadButton.js'));

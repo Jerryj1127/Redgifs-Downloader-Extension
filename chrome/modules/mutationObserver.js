@@ -1,4 +1,5 @@
 // mutationObserver.js
+
 export function observeDOM(addDownloadButton) {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
