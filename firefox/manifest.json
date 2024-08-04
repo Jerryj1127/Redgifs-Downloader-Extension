@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Redgifs Downloader",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Firefox extension to download videos from Redgifs",
   "permissions": [
     "storage",
@@ -36,7 +36,8 @@
     "modules/downloadTracker.js",
     "modules/mutationObserver.js",
     "modules/storageManager.js",
-    "modules/token.js"
+    "modules/token.js",
+    "modules/copyLinkButton.js"
   ],
   "icons": {
     "16": "icons/icon16.png",
