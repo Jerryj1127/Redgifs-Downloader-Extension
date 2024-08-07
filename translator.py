@@ -2,6 +2,8 @@ import os
 import json
 import shutil
 
+current_version = 9.9
+
 def process_manifest(manifest_path, output_path):
     with open(manifest_path, 'r') as file:
         manifest = json.load(file)
@@ -27,6 +29,9 @@ def process_manifest(manifest_path, output_path):
     # save the manifest
     with open(output_path, 'w') as file:
         json.dump(manifest, file, indent=2)
+    
+    global current_version
+    current_version = manifest['version']
 
 def replace_chrome_with_browser(js_file_path):
     with open(js_file_path, 'r') as file:
@@ -52,9 +57,16 @@ def convert_extension(input_dir, output_dir):
     process_manifest(manifest_path, manifest_path)
     process_js_files(output_dir)
 
+def create_version_file(version):
+    with open('latest.json', 'w') as file:
+        json.dump({"latest_version": version}, file, indent=2)
+
+
 if __name__ == '__main__':
     input_directory = 'chrome'
     output_directory = 'firefox'
     
     convert_extension(input_directory, output_directory)
+    create_version_file(current_version)
+
     print(f"Extension converted successfully from {input_directory} to {output_directory}")
