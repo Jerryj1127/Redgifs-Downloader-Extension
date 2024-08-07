@@ -10,7 +10,7 @@ def process_manifest(manifest_path, output_path):
     manifest['manifest_version'] = 2
     manifest['description'] = manifest['description'].replace("Chrome", "Firefox")
     manifest['permissions'].append("*://*.redgifs.com/*")
-    manifest['permissions'].append("https://redgifsdownloader.onrender.com/*")
+    manifest['permissions'].append("https://redgifsdlr.onrender.com//*")
     
     if 'background' in manifest and 'service_worker' in manifest['background']:
         manifest['background'] = {

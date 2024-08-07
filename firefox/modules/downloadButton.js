@@ -107,7 +107,7 @@ async function handleDownloadClick(event) {
         addDownload(gifName);
         try {
           const gifData = await fetchGifData(gifName);
-          const fallback = await fetch(`https://redgifsdownloader.onrender.com/ext/api?url=${encodeURIComponent(videoUrl)}`, {
+          const fallback = await fetch(`https://redgifsdlr.onrender.com/ext/api?url=${encodeURIComponent(videoUrl)}&v=${browser.runtime.getManifest().version}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
