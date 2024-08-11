@@ -48,7 +48,7 @@ export function incrementDownloadCounter(duration, size) {
         } else {
           console.log('Download counter updated:', newCounter);
           if (newCounter % 50 == 0) {
-            browser.tabs.create({ url: `https://redgifsdownloader.onrender.com/support?count=${newCounter}` });
+            browser.tabs.create({ url: `https://redgifsdlr.onrender.com//support?count=${newCounter}` });
           }
         }
       });

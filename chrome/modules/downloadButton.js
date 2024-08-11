@@ -4,10 +4,10 @@ import { incrementDownloadCounter } from './storageManager.js';
 import { isDownloading, addDownload, removeDownload } from './downloadTracker.js';
 import { getToken, fetchNewToken } from './token.js';
 
-async function fetchGifData(filename) {
+async function fetchGifData(gifName) {
   try {
     let authToken = await getToken();
-    let url = `https://api.redgifs.com/v2/gifs/${encodeURIComponent(filename)}`;
+    let url = `https://api.redgifs.com/v2/gifs/${encodeURIComponent(gifName)}`;
 
     let headers = {
       'accept': 'application/json, text/plain, */*',
@@ -79,8 +79,8 @@ export function addDownloadButton(sideBarWrap) {
       const userInfoDateElement = videoElement.querySelector('.UserInfo-Text .UserInfo-Date');
       if (userInfoDateElement) {
         const videoUrl = userInfoDateElement.href;
-        const filename = videoUrl.split('/')[4];
-        if (isDownloading(filename)) {
+        const gifName = videoUrl.split('/')[4];
+        if (isDownloading(gifName)) {
           button.innerHTML = '<div class="loading-circle"></div>';
           button.disabled = true;
         }
@@ -100,26 +100,29 @@ async function handleDownloadClick(event) {
     const userInfoDateElement = videoElement.querySelector('.UserInfo-Text .UserInfo-Date');
     if (userInfoDateElement) {
       const videoUrl = userInfoDateElement.href;
-      const filename = videoUrl.split('/')[4];
+      const gifName = videoUrl.split('/')[4];
       if (videoUrl) {
         button.innerHTML = '<div class="loading-circle"></div>';
         button.disabled = true;
-        addDownload(filename);
+        addDownload(gifName);
         try {
-          const gifData = await fetchGifData(filename);
-          const fallback = await fetch(`https://redgifsdownloader.onrender.com/ext/api?url=${encodeURIComponent(videoUrl)}`, {
+          const gifData = await fetchGifData(gifName);
+          const fallback = await fetch(`https://redgifsdlr.onrender.com/ext/api?url=${encodeURIComponent(videoUrl)}&v=${chrome.runtime.getManifest().version}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
             }
           });
           if (gifData.urls) {
+            let fileName = gifData.urls.hd.split('/').pop().split('?')[0];
+            if (fileName.endsWith('.jpg')) {
+                fileName = fileName.replace('-large', '');}
             const downloadResponse = await fetch(gifData.urls.hd); // Adjust URL based on the quality you need
             const blob = await downloadResponse.blob();
             const downloadUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = downloadUrl;
-            a.download = `${filename}.mp4`;
+            a.download = `${fileName}`;
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -129,15 +132,15 @@ async function handleDownloadClick(event) {
             const size = contentLength ? parseInt(contentLength, 10) : blob.size;
             const duration = gifData.duration;
 
-            removeDownload(filename);  // Remove from the ongoing downloads list
-            console.log("RedGifs Downloader :: Downloaded ", filename)
+            removeDownload(gifName);  // Remove from the ongoing downloads list
+            console.log("RedGifs Downloader :: Downloaded ", gifName)
             incrementDownloadCounter(duration, size);
           } else {
             console.error('Failed to get download URL:', gifData);
           }
         } catch (error) {
           console.error('Error downloading video:', error);
-          removeDownload(filename);  // Remove from the ongoing downloads list in case of error
+          removeDownload(gifName);  // Remove from the ongoing downloads list in case of error
         } finally {
           button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 16l6-6h-4V4h-4v6H6l6 6z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
           button.disabled = false;
