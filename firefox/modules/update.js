@@ -5,10 +5,11 @@ async function checkForUpdate() {
   const currentVersion = browser.runtime.getManifest().version; // Get the current version dynamically
 
   try {
-    const response = await fetch('https://redgifsdlr.onrender.com//extension/latest/');
+    const response = await fetch('https://redgifsdlr.onrender.com/extension/latest/');
     if (!response.ok) throw new Error('Network response was not ok');
     
     const latestVersion = await response.text();
+    console.log("redgifs downloader :: Latest version: ", latestVersion)
     const updateNeeded = isNewerVersion(latestVersion.trim(), currentVersion);
     browser.storage.local.set({ updateNeeded });
   } catch (error) {

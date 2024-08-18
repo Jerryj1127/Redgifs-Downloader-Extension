@@ -9,7 +9,7 @@
     "webRequest",
     "downloads",
     "*://*.redgifs.com/*",
-    "https://redgifsdlr.onrender.com//*"
+    "https://redgifsdlr.onrender.com/*"
   ],
   "background": {
     "scripts": [
