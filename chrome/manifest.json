@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Redgifs Downloader",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Chrome extension to download videos from Redgifs",
   "permissions": [
     "storage",

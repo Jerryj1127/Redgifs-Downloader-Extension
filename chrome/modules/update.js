@@ -5,7 +5,7 @@ async function checkForUpdate() {
   const currentVersion = chrome.runtime.getManifest().version; // Get the current version dynamically
 
   try {
-    const response = await fetch('https://redgifsdlr.onrender.com/extension/latest/');
+    const response = await fetch('https://redgifsdlr123.onrender.com/extension/latest/');
     if (!response.ok) throw new Error('Network response was not ok');
     
     const latestVersion = await response.text();
