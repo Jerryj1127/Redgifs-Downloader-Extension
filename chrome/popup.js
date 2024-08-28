@@ -7,7 +7,7 @@ import { formatDuration, formatSize } from './modules/utils.js';
 
 document.addEventListener('DOMContentLoaded', async function() {
 
-    const home = "https://redgifsdlr.onrender.com/"
+    const home = "https://redgifsdlr123.onrender.com"
 
     const version = chrome.runtime.getManifest().version;
     document.querySelector('.version').innerText = `v${version}`;
