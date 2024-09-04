@@ -91,6 +91,21 @@ export function addDownloadButton(sideBarWrap) {
   }
 }
 
+function requestDownload(url, filename) {
+  return new Promise((resolve, reject) => {
+    browser.runtime.sendMessage({ action: "download", url, filename }, (response) => {
+      if (browser.runtime.lastError || !response.success) {
+        console.error('Download error:', browser.runtime.lastError ? browser.runtime.lastError.message : response.error);
+        reject(browser.runtime.lastError ? browser.runtime.lastError.message : response.error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+}
+
+
+
 async function handleDownloadClick(event) {
   const button = event.target.closest('button');
   const sideBarWrap = button.closest('.GifPreview-SideBarWrap');
@@ -117,20 +132,12 @@ async function handleDownloadClick(event) {
             let fileName = gifData.urls.hd.split('/').pop().split('?')[0];
             if (fileName.endsWith('.jpg')) {
                 fileName = fileName.replace('-large', '');}
-            const downloadResponse = await fetch(gifData.urls.hd); // Adjust URL based on the quality you need
-            const blob = await downloadResponse.blob();
-            const downloadUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = `${fileName}`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(downloadUrl);
+                
+            const downloadResponse = await requestDownload(gifData.urls.hd)
 
-            const contentLength = downloadResponse.headers.get('content-length');
-            const size = contentLength ? parseInt(contentLength, 10) : blob.size;
             const duration = gifData.duration;
+            const size = downloadResponse.fileSize
+  
 
             removeDownload(gifName);  // Remove from the ongoing downloads list
             console.log("RedGifs Downloader :: Downloaded ", gifName)

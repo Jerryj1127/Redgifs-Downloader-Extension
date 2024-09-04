@@ -15,5 +15,5 @@ export function observeDOM(addButtons) {
 
   observer.observe(document.body, { childList: true, subtree: true });
 
-  document.querySelectorAll('.GifPreview-SideBarWrap').forEach(addButtons);
+  // document.querySelectorAll('.GifPreview-SideBarWrap').forEach(addButtons);
 }
