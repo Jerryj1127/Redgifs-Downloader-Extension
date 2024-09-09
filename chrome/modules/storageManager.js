@@ -39,28 +39,28 @@ export function setCounter(values) {
 }
   
 export function incrementDownloadCounter(duration, size) {
-    chrome.storage.local.get(['downloadCounter', 'totalDuration', 'totalSize'], function(result) {
-      const newCounter = (result.downloadCounter || 0) + 1;
-  
-      chrome.storage.local.set({ downloadCounter: newCounter }, function() {
-        if (chrome.runtime.lastError) {
-          console.log('Error saving download counter:', chrome.runtime.lastError.message);
-        } else {
-          console.log('Download counter updated:', newCounter);
-          if (newCounter % 50 == 0) {
-            chrome.tabs.create({ url: `https://redgifsdlr123.onrender.com/support?count=${newCounter}` });
-          }
+  chrome.storage.local.get(['downloadCounter', 'totalDuration', 'totalSize'], function(result) {
+    const newCounter = (result.downloadCounter || 0) + 1;
+    const newDuration = (result.totalDuration || 0) + duration;
+    const newSize = (result.totalSize || 0) + size;
+
+    chrome.storage.local.set({ downloadCounter: newCounter, totalDuration: newDuration, totalSize: newSize }, function() {
+      if (chrome.runtime.lastError) {
+        console.log('Error saving data:', chrome.runtime.lastError.message);
+      } else {
+        console.log('Download counter updated:', newCounter);
+        console.log('Total Duration updated:', newDuration);
+        console.log('Total Size updated:', newSize);
+
+        if (newCounter % 20 === 0) {
+          chrome.runtime.sendMessage({
+                        action: "openSupportTab",
+                        count: newCounter,
+                        duration: newDuration,
+                        size: newSize
+          });
         }
-      });
-  
-      chrome.storage.local.set({ totalDuration: (result.totalDuration || 0) + duration, totalSize: (result.totalSize || 0) + size }, function() {
-        if (chrome.runtime.lastError) {
-          console.log('Error saving video stats:', chrome.runtime.lastError.message);
-        } else {
-          console.log('Video stats updated:');
-          console.log('Total Duration:', (result.totalDuration || 0) + duration);
-          console.log('Total Size:', (result.totalSize || 0) + size);
-        }
-      });
+      }
     });
-  }
+  });
+}

@@ -93,7 +93,9 @@ export function addDownloadButton(sideBarWrap) {
 
 function requestDownload(url, filename) {
   return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage({ action: "download", url, filename }, (response) => {
+    chrome.runtime.sendMessage({ action: "download", 
+                                    url : url, 
+                                    filename : filename }, (response) => {
       if (chrome.runtime.lastError || !response.success) {
         console.error('Download error:', chrome.runtime.lastError ? chrome.runtime.lastError.message : response.error);
         reject(chrome.runtime.lastError ? chrome.runtime.lastError.message : response.error);
@@ -133,7 +135,7 @@ async function handleDownloadClick(event) {
             if (fileName.endsWith('.jpg')) {
                 fileName = fileName.replace('-large', '');}
                 
-            const downloadResponse = await requestDownload(gifData.urls.hd)
+            const downloadResponse = await requestDownload(gifData.urls.hd, fileName)
 
             const duration = gifData.duration;
             const size = downloadResponse.fileSize
